@@ -14,7 +14,8 @@ CREATE TABLE permissoes(
 CREATE TABLE perfil(
     user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     PRIMARY KEY(user_id),
-    nome VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    senha VARCHAR(50) NOT NULL,
     cargo VARCHAR(50) CHECK (cargo IN ('usuario', 'administrador'))
 );
 
