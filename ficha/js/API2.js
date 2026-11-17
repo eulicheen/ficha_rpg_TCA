@@ -1,5 +1,5 @@
 const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co';
-const LOGIN_URL = `${SUPABASE_URL_BASE}/auth/v1/password`;
+const LOGIN_URL = `${SUPABASE_URL_BASE}/auth/v1/token?grant_type=passwordpassword`;
 const BANCO_URL = `${SUPABASE_URL_BASE}/rest/v1/perfil`;
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
 
@@ -8,7 +8,6 @@ const form = document.querySelector('#form');
 const email = document.querySelector('#email');
 const senha = document.querySelector('#senha');
 
-let armazenar = [];
 
 form.addEventListener('submit', login);
 
@@ -36,8 +35,11 @@ async function login(e) {
       throw new Error(dados.error_description  || dados.msg || `Erro HTTP: ${resposta.status}`);
     }
 
-    console.log('Login realizado:', dados);
-    armazenar.push(dados);
+    alert('Login realizado');
+    
+
+    localStorage.setItem("supabase_session", JSON.stringify(session));
+    window.location.href = './ficha/campanha.html';
 
 }
 catch (error) {
