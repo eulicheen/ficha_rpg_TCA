@@ -3,11 +3,10 @@ const AUTENTICACAO_URL = `${SUPABASE_URL_BASE}/auth/v1/signup`;
 const BANCO_URL = `${SUPABASE_URL_BASE}/rest/v1/perfil`;
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
 
-// Cadastro
+//cadastro
 const form = document.querySelector('#form');
 const email = document.querySelector('#email');
 const senha = document.querySelector('#senha');
-const submit = document.querySelector('#submit');
 
 let armazenar = [];
 
