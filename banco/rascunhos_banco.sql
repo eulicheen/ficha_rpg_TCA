@@ -1,76 +1,93 @@
-SELECT
-FROM 
-JOIN
-WHERE 
+DROP TABLE IF EXISTS permissoes_perfil;
+DROP TABLE IF EXISTS perfil;
+DROP TABLE IF EXISTS permissoes;
 
 
+CREATE TABLE permissoes(
+    id SERIAL PRIMARY KEY,
+    codigo VARCHAR(50) NOT NULL UNIQUE,
+    descricao TEXT,
+    cargo VARCHAR(50) CHECK (cargo IN ('usuario', 'administrador'))
+);
 
 
-ALTER TABLE "cargo"
-enable row level security;
+CREATE TABLE perfil(
+    user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    PRIMARY KEY(user_id),
+    email VARCHAR(50) NOT NULL,
+    senha VARCHAR(50) NOT NULL,
+    cargo VARCHAR(50) CHECK (cargo IN ('usuario', 'administrador'))
+);
+
+CREATE TABLE permissoes_perfil(
+    id_permissoes INT NOT NULL REFERENCES permissoes(id),
+    user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    PRIMARY KEY(user_id)
+);
 
 
-CREATE POLICY "cliente vê os produtos"
-ON cliente FOR SELECT
-TO AUTHENTICATED
-  USING (
-     EXISTS (
-      SELECT produto.nome FROM produto
-      WHERE id = auth.uid() and cargo = ('administrador', 'cliente')
-    )
-  );
+INSERT INTO permissoes(codigo, descricao, cargo)
+VALUES
+
+-- USUÁRIO
+('criar.ficha', 'criar fichas', 'usuario'),
+('ver.ficha', 'ver fichas', 'usuario'),
+('editar.ficha', 'editar fichas', 'usuario'),
+('apagar.ficha', 'apagar fichas', 'usuario'),
 
 
-CREATE POLICY "usuario autenticado" 
-ON cliente
-FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+-- ADMINISTRADOR 
+('criar.ficha', 'criar fichas', 'administrador'),
+('ver.ficha', 'ver fichas', 'administrador'),
+('editar.ficha', 'editar fichas', 'administrador'),
+('apagar.ficha', 'apagar fichas', 'administrador');
 
 
+CREATE TABLE arquetipo(
+    id PRIMARY KEY,
+    nome VARCHAR(50)
+);
 
-CREATE POLICY "administrador apaga ingredientes"
-ON ingredientes FOR DELETE
-TO AUTHENTICATED
-  USING (
-     EXISTS (
-      SELECT 1 FROM ingredientes
-      WHERE id = auth.uid() and cargo = 'administrador'
-    )
-  );
+CREATE TABLE pericias(
+    id PRIMARY KEY,
+    nome VARCHAR(50)
+);
 
-CREATE POLICY "administrador apaga estoque"
-ON estoque FOR DELETE
-TO AUTHENTICATED
-  USING (
-     EXISTS (
-      SELECT 1 FROM estoque
-      WHERE id = auth.uid() and cargo = 'administrador'
-    )
-  );
+CREATE TABLE ficha(
+    id PRIMARY KEY,
+    nome_player VARCHAR(50),
+    vida INT check (vida <= 6),
+    dados INT check (dados <= 6),
+    habilidades TEXT,
+    id_arquetipo INT REFERENCES arquetipo(id),
+    id_pericias INT REFERENCES pericias(id)
+);
 
-
-
--- Anyone can read the leaderboard
-create policy "Leaderboard is public"
-  on leaderboard
-  for select
-  to anon, authenticated
-  using (true);
-
--- Authenticated users can submit and update scores
-create policy "Authenticated users can submit scores"
-  on leaderboard
-  for insert
-  to authenticated
-  with check (true);
-
-create policy "Authenticated users can update scores"
-  on leaderboard
-  for update
-  to authenticated
-  using (true)
-  with check (true);
+CREATE TABLE campanha(
+  id PRIMARY KEY,
+  id_ficha INT REFERENCES ficha(id),
+  id_arquetipo INT REFERENCES arquetipo(id),
+  id_pericias INT REFERENCES pericias(id)
+);
 
 
+INSERT INTO arquetipo (nome)
+VALUES
 
+('Herói'),
+('Atleta'),
+('Valentão'),
+('Esbelto'),
+('Inocente'),
+('Nerd'),
+('Relaxado'),
+('Cético');
 
+INSERT INTO pericias (nome)
+VALUES
 
+('Força'),
+('Agilidade'),
+('Astucia'),
+('Vigor'),
+('Carisma');
