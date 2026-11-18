@@ -39,6 +39,10 @@ async function cadastro(e) {
     console.log('Conta criada:', dados);
     armazenar.push(dados);
 
+    
+    localStorage.setItem("supabase_session", JSON.stringify(dados));
+    window.location.href = '/ficha/campanha.html';
+
 }
 catch (error) {
     console.error('Erro ao criar conta:', error);

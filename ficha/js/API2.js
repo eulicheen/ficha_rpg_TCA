@@ -1,5 +1,5 @@
 const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co';
-const LOGIN_URL = `${SUPABASE_URL_BASE}/auth/v1/token?grant_type=passwordpassword`;
+const LOGIN_URL = `${SUPABASE_URL_BASE}/auth/v1/token?grant_type=password`;
 const BANCO_URL = `${SUPABASE_URL_BASE}/rest/v1/perfil`;
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
 
@@ -38,13 +38,13 @@ async function login(e) {
     alert('Login realizado');
     
 
-    localStorage.setItem("supabase_session", JSON.stringify(session));
-    window.location.href = './ficha/campanha.html';
+    localStorage.setItem("supabase_session", JSON.stringify(dados));
+    window.location.href = '/ficha/campanha.html';
 
 }
 catch (error) {
     console.error('Erro ao fazer login:', error);
-    alert('ALgo deu errado, confira suas informações')
+    alert('Algo deu errado, confira suas informações')
 }
 }
 
