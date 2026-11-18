@@ -55,6 +55,10 @@ a{
     padding: 40px;
 }
 
+.h1{
+    color: var(--cor-letra);
+}
+
 #clique{
     text-align: center;
 }
