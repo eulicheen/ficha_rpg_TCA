@@ -2,39 +2,40 @@ DROP TABLE IF EXISTS campanha_ficha;
 DROP TABLE IF EXISTS ficha;
 DROP TABLE IF EXISTS atributos;
 DROP TABLE IF EXISTS arquetipo;
+DROP TABLE IF EXISTS campanha_membro;
 DROP TABLE IF EXISTS campanha;
 DROP TABLE IF EXISTS perfil;
 
 
 CREATE TABLE perfil(
     user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    PRIMARY KEY(user_id),
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
     senha VARCHAR(50) NOT NULL,
+    PRIMARY KEY(user_id)
 );
 
 CREATE TABLE campanha(
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL,
+    nome VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE campanha_membro(
     id SERIAL PRIMARY KEY,
     id_campanha INT NOT NULL REFERENCES campanha(id),
-    id_perfil INT NOT NULL REFERENCES perfil(id),
+    user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     funcao VARCHAR(20) CHECK (funcao IN ('jogador', 'mestre')),
-    UNIQUE(id_campanha, id_perfil)
+    UNIQUE(id_campanha, user_id)
 );
 
 CREATE TABLE arquetipo(
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(50),
+    nome VARCHAR(20),
     descricao TEXT
 );
 
 CREATE TABLE atributos(
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(50),
+    nome VARCHAR(20),
     descricao TEXT
 );
 
@@ -46,16 +47,15 @@ CREATE TABLE ficha(
     dados INT CHECK (dados <= 6),
     habilidades TEXT,
     id_arquetipo INT REFERENCES arquetipo(id),
-    id_pericias INT REFERENCES pericias(id),
-    id_perfil INT NOT NULL REFERENCES perfil(id)
+    id_atributos INT REFERENCES atributos(id),
+    user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE campanha_ficha(
     id_campanha INT REFERENCES campanha(id),
     id_ficha INT REFERENCES ficha(id),
-    PRIMARY KEY(campanha_id, ficha_id)
+    PRIMARY KEY(id_campanha, id_ficha)
 );
-
 
 INSERT INTO arquetipo(nome, descricao)
 VALUES
