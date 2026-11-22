@@ -7,12 +7,7 @@ const botao = document.querySelector('#botao');
 const div = document.querySelector('#div');
 const nome = document.querySelector('#nome');
 
-
-//ao clicar no botão rola tudo
-botao.addEventListener('submit', NovaCampanha);
-
-async function NovaCampanha(e) {
-    e.preventDefault(); 
+async function novaCampanha() {
 
     const dadosCampanha = {
         nome: nome.value
@@ -23,6 +18,7 @@ async function NovaCampanha(e) {
             method: 'POST',
             headers: {
             apikey: SUPABASE_PUBLISHABLE_KEY,
+            'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
             'Content-Type': 'application/json',
              Prefer: 'return=representation',
              'Accept': 'application/vnd.pgrst.object+json'
