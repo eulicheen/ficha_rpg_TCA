@@ -83,10 +83,11 @@ async function buscarCampanhas() {
 
 //redenriza as campanhas
 function renderCampanhas() {
+    console.log('renderCampanhas rodou', lista);
     lista.innerHTML = '';
 
     if (localCampanhas.length === 0) {
-        lista.innerHTML = '<p>Nenhuma campanha encontrada.</p>';
+        lista.textContent = 'Nenhuma campanha encontrada';
         return;
     }
 
@@ -94,11 +95,13 @@ function renderCampanhas() {
 
         const div = document.createElement('div');
         div.id = `campanha-${campanha.id}`;
+        div.classList.add('campanha');
         
         const p = document.createElement('p');
         const b = document.createElement('b');
         
         b.textContent = campanha.nome;
+        p.appendChild(b);
         div.appendChild(p);
 
         div.addEventListener('click', () => {
