@@ -72,3 +72,11 @@ body{
     margin-top: 20px;
     color: var(--cor-letra);
 }
+
+#p{
+    color: var(--cor-letra);
+}
+
+#campanhas{
+    color: var(--cor-letra);
+}
