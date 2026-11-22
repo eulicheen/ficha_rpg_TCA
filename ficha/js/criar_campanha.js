@@ -23,6 +23,8 @@ async function NovaCampanha(e) {
             headers: {
             apikey: SUPABASE_PUBLISHABLE_KEY,
             'Content-Type': 'application/json',
+             Prefer: 'return=representation',
+             'Accept': 'application/vnd.pgrst.object+json'
             },
             body: JSON.stringify(dadosCampanha)
         });
@@ -33,14 +35,15 @@ async function NovaCampanha(e) {
         
         const campanhaCriada = await resposta.json();
 
+
         const novaDiv = document.createElement('div');
 
-        novaDiv.innerHTML = `Nova campanha registrada com sucesso. <br>
-                                {dadosDocumento.nome_campanha}`;
+        novaDiv.innerHTML = `Nova campanha registrada com sucesso. <br> {campanhaCriada.nome_campanha}`;
 
         contentor.appendChild(novaDiv);
 
-    window.open(`/arquivo.html?id=${idGerado}`, '_blank');
+
+    window.open(`/ficha/criar_ficha.html?id=${campanhaCriada.id}`, '_blank');
 
     } catch (error) {
         console.error('Erro ao criar campanha:', error);

@@ -41,7 +41,7 @@ async function cadastro(e) {
 
     
     localStorage.setItem("supabase_session", JSON.stringify(dados));
-    window.location.href = '/ficha/campanha.html';
+    window.location.href = '/ficha/criar_campanha.html';
 
 }
 catch (error) {
