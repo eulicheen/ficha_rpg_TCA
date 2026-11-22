@@ -63,18 +63,8 @@ body{
     margin-top: 13px;
 }
 
-#botao{
-    margin-left: 15px;
-    margin-top: 15px;
-}
 
-#p{
-    color: var(--cor-letra);
-}
 
-#lista{
-    color: var(--cor-letra);
-}
 
 .oculto {
     display: none; 

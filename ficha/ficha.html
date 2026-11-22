@@ -10,26 +10,42 @@
 </head>
 <body>
 
-<form clas="oculto">
+<form id="ficha" class="oculto">
+
+    <input type="hidden" id="input">
 
     <!-- nome do jogador -->
-    <input type="text" id="nome" placeholder="Nome do jogador">
+    <input type="text" id="nome" placeholder="Nome do jogador" maxlength="50">
 
-    <!-- vida do jogador -->
-    <input type="number" id="vida" placeholder="Vida" required>
+    <!-- vida do jogador
+    <input type="number" id="vida" placeholder="Vida (máx 6)" min="0" max="6" required> -->
 
-    <!-- dados do jogador -->
-    <input type="number" id="dados" placeholder="Dados" required>
+    <label for="vida" >Vida:</label>
+    <select id="vida" name="vida">
+        <option value="0">0/6</option>
+        <option value="1">1/6</option>
+        <option value="2">2/6</option>
+        <option value="3">3/6</option>
+        <option value="4">4/6</option>
+        <option value="5">5/6</option>
+        <option value="6">6/6</option>
+    </select>
+
+     <!-- dados do jogador -->
+    <input type="number" id="dados" placeholder="Dados (máx 6)" min="0" max="6" required>
 
     <!-- habilidades do jogador -->
-    <input type="text" id="habilidade1" placeholder="Primeira habilidade" required>
-    <input type="text" id="habilidade2" placeholder="Segunda habilidade" required>
+    <textarea type="text" id="habilidade1" placeholder="Primeira habilidade" required></textarea>
+    <textarea type="text" id="habilidade2" placeholder="Segunda habilidade" required></textarea>
+
+    
     
     <!-- Botão de nova ficha -->
-    <button type="submit" id="botao" onclick="novaCampanha()"><b>Criar ficha</b></button>
+    <button type="submit" id="botao" onclick="novaCampanha()"><b>Salvar ficha</b></button>
 
 </form>
 
+    <!-- registro de fichas -->
     <p id="p">Fichas registradas:</p>
     <div id="lista">Carregando...</div>
 

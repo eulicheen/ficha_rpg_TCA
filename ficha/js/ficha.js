@@ -1,115 +1,134 @@
-const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co/rest/v1/campanha';
+const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co/rest/v1/ficha';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
        
 
-//criar campanha
-const botao = document.querySelector('#botao');
+const ficha = document.querySelector('#ficha');
+const input = document.querySelector('#input');
+
 const nome = document.querySelector('#nome');
+const vida = document.querySelector('#vida');
+const dados = document.querySelector('#dados');
+const habilidade1 = document.querySelector('#habilidade1');
+const habilidade2 = document.querySelector('#habilidade2');
+
+const container = document.querySelector('#container');
+const mensagem = document.querySelector('#mensagem');
 
 
-botao.addEventListener('submit', novaCampanha);
-async function novaCampanha() {
 
-    const dadosCampanha = {
-        nome: nome.value
-    };
-    
+//armazenar dados no servidor
+let localEstoque = [];
+
+
+form.addEventListener('submit', updateEstoque);
+
+
+//busca estoque
+async function buscarEstoque() {
     try {
-        const resposta = await fetch(SUPABASE_URL_BASE, {
-            method: 'POST',
+        const response = await fetch(API_URL, {
             headers: {
-            apikey: SUPABASE_PUBLISHABLE_KEY,
-            'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-            'Content-Type': 'application/json',
-             Prefer: 'return=representation',
-             'Accept': 'application/vnd.pgrst.object+json'
-            },
-            body: JSON.stringify(dadosCampanha)
-        });
-
-        if(!resposta.ok){
-            throw new Error('Erro ao criar campanha')
-        }
-        
-        const campanhaCriada = await resposta.json();
-
-
-        nome.value = '';
-        buscarCampanhas();//atualiza a lista de campanhas
-
-
-    window.open(`/ficha/criar_ficha.html?id=${campanhaCriada.id}`, '_blank');
-
-
-    } catch (error) {
-        console.error('Erro ao criar campanha:', error);
-        alert('Erro ao criar campanha');
-    }
-}
-
-
-
-
-
-//mostrar campanhas criadas
-const lista = document.querySelector('#lista');
-let localCampanhas = [];
-
-async function buscarCampanhas() {
-    try {
-        const resposta = await fetch(`${SUPABASE_URL_BASE}?select=*order=id.desc`,
-            {
-                method: 'GET',
-                headers: {
-                apikey: SUPABASE_PUBLISHABLE_KEY,
-                'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
-                Accept: 'application/json'
-                }
+                apikey: PUBLISHABLE_KEY
             }
-        );
-        
-        if(!resposta.ok){
-        throw new Error('Erro ao carregar campanhas')
-        }
-
-        localCampanhas = await resposta.json();
-        renderCampanhas();
-
+        });
+        localEstoque = await response.json();
+        renderEstoque();
     } catch (error) {
-        console.error('Erro ao carregar campanhas:', error);
-        lista.innerHTML = 'Erro ao carregar campanhas.';
+        container.innerHTML = 'Erro ao carregar os dados.';
     }
 }
 
-//redenriza as campanhas
-function renderCampanhas() {
-    console.log('renderCampanhas rodou', lista);
-    lista.innerHTML = '';
-
-    if (localCampanhas.length === 0) {
-        lista.textContent = 'Nenhuma campanha encontrada';
+//redenriza o estoque
+function renderEstoque() {
+    if (localEstoque.length == 0) {
+        container.innerHTML = '<p>Nenhum produto encontrado.</p>';
         return;
     }
 
-    localCampanhas.forEach(campanha => {
-
-        const div = document.createElement('div');
-        div.id = `campanha-${campanha.id}`;
-        div.classList.add('campanha');
-        
-        const p = document.createElement('p');
-        const b = document.createElement('b');
-        
-        b.textContent = campanha.nome;
-        p.appendChild(b);
-        div.appendChild(p);
-
-        div.addEventListener('click', () => {
-            window.open(`/ficha/criar_ficha.html?id=${campanhaCriada.id}`, '_blank');
-        });
-
-        lista.appendChild(div);
-
+    container.innerHTML = '';
+    localEstoque.forEach(estoque => {
+        container.innerHTML += `
+            <div class="estoque-card" id="estoque-${estoque.id}">
+                <h2>${estoque.nome_produto}</h2>
+                <p>Quantidade: ${estoque.quantidade}</p>
+                <p>Preço: ${estoque.preco}</p>
+                <div class="actions">
+                    <button class="edit" onclick="prepararEdit(${estoque.id})">Editar</button>
+                </div>
+            </div>
+        `;
     });
 }
-buscarCampanhas();
+
+
+
+//preenche com os dados do produto selecionado para edição
+function prepararEdit(id) {
+    const estoque = localEstoque.find(e => e.id === id);
+    if (estoque) {
+        form.classList.remove('oculto');
+        container.classList.add('oculto');
+        mensagem.innerHTML = 'Informe os dados que serão alterados';
+
+        input.value = estoque.id;
+        nome.value = estoque.nome_produto;
+        quantidade.value = estoque.quantidade;
+        preco.value = estoque.preco;
+                    
+    }
+}
+window.prepararEdit = prepararEdit;
+
+// atualiza
+async function updateEstoque(e) {
+    e.preventDefault();
+    
+    const id = input.value;
+    
+    // Validação básica para garantir que temos um ID válido
+    if (!id) {
+        alert("Nenhum produto selecionado para edição!");
+        return;
+    }
+
+    const estoqueData = {
+        nome_produto: nome.value,
+        quantidade: Number(quantidade.value),
+        preco: Number(preco.value)
+    };
+
+    try {
+        const baseUrl = API_URL.split('?')[0]; //pega apenas a URL limpa sem parâmetros anteriores
+        const urlUpdate = `${baseUrl}?id=eq.${id}`;
+
+        console.log("Enviando PATCH para:", urlUpdate);
+
+        const response = await fetch(urlUpdate, {
+            method: 'PATCH',
+            headers: {    
+                'apikey': PUBLISHABLE_KEY,
+                'Authorization': `Bearer ${PUBLISHABLE_KEY}`, // Importante para auth/RLS
+                'Content-Type': 'application/json',  
+                'Prefer': 'return=representation'
+            },
+            body: JSON.stringify(estoqueData)
+        });
+
+        const resultado = await response.json();
+        console.log("Atualizado com sucesso:", resultado);
+        
+        form.classList.add('oculto');
+        container.classList.remove('oculto');
+        mensagem.innerHTML = `Estoque alterado com sucesso!<br>Escolha outro produto para editar.`;
+        
+        //limpa o formulário e recarrega a lista atualizada
+        form.reset();
+        buscarEstoque(); 
+
+    } catch (error) {
+        console.error('Erro ao alterar estoque:', error);
+        alert('Erro ao atualizar o produto. Verifique o console.');
+    }
+}
+
+buscarEstoque();
