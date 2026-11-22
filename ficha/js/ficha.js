@@ -1,5 +1,6 @@
 const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co/rest/v1/ficha';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
+const AUTENTICACAO_URL = `${SUPABASE_URL_BASE}/auth/v1/signup`;
        
 
 const ficha = document.querySelector('#ficha');
@@ -13,5 +14,4 @@ const habilidade2 = document.querySelector('#habilidade2');
 
 const container = document.querySelector('#container');
 const mensagem = document.querySelector('#mensagem');
-
 
