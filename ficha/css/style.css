@@ -79,4 +79,5 @@ body{
 
 #lista{
     color: var(--cor-letra);
+    border: 3px solid var(--cor-fundo);
 }

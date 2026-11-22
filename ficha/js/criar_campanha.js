@@ -2,11 +2,12 @@ const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co/rest/v1/camp
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
        
 
-//criarcampanha
+//criar campanha
 const botao = document.querySelector('#botao');
-const div = document.querySelector('#div');
 const nome = document.querySelector('#nome');
 
+
+botao.addEventListener('submit', novaCampanha);
 async function novaCampanha() {
 
     const dadosCampanha = {
@@ -33,11 +34,12 @@ async function novaCampanha() {
         const campanhaCriada = await resposta.json();
 
 
-        const novaDiv = document.createElement('div');
-        div.appendChild(novaDiv);
+        nome.value = '';
+        buscarCampanhas();//atualiza a lista de campanhas
 
 
     window.open(`/ficha/criar_ficha.html?id=${campanhaCriada.id}`, '_blank');
+
 
     } catch (error) {
         console.error('Erro ao criar campanha:', error);
@@ -46,41 +48,65 @@ async function novaCampanha() {
 }
 
 
+
+
+
 //mostrar campanhas criadas
 const lista = document.querySelector('#lista');
 let localCampanhas = [];
 
 async function buscarCampanhas() {
     try {
-        const resposta = await fetch(API_URL,
+        const resposta = await fetch(`${SUPABASE_URL_BASE}?select=*order=id.desc`,
             {
                 method: 'GET',
                 headers: {
-                apikey: PUBLISHABLE_KEY,
+                apikey: SUPABASE_PUBLISHABLE_KEY,
+                'Authorization': `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
                 Accept: 'application/json'
                 }
             }
-        );  
-        localCampanhas = await response.json();
+        );
+        
+        if(!resposta.ok){
+        throw new Error('Erro ao carregar campanhas')
+        }
+
+        localCampanhas = await resposta.json();
         renderCampanhas();
+
     } catch (error) {
+        console.error('Erro ao carregar campanhas:', error);
         lista.innerHTML = 'Erro ao carregar campanhas.';
     }
 }
 
 //redenriza as campanhas
 function renderCampanhas() {
+    lista.innerHTML = '';
+
     if (localCampanhas.length === 0) {
         lista.innerHTML = '<p>Nenhuma campanha encontrada.</p>';
         return;
     }
 
     localCampanhas.forEach(campanha => {
-        lista.innerHTML += `
-            <div id="campanha-${campanha.id}">
-                <p>${campanha.nome}</p>
-            </div>
-        `;
+
+        const div = document.createElement('div');
+        div.id = `campanha-${campanha.id}`;
+        
+        const p = document.createElement('p');
+        const b = document.createElement('b');
+        
+        b.textContent = campanha.nome;
+        div.appendChild(p);
+
+        div.addEventListener('click', () => {
+            window.open(`/ficha/criar_ficha.html?id=${campanhaCriada.id}`, '_blank');
+        });
+
+        lista.appendChild(div);
+
     });
 }
 buscarCampanhas();
