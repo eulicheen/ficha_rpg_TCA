@@ -70,8 +70,5 @@ body{
 
 #div{
     margin-top: 20px;
-}
-
-#nome{
-    padding-right: 15px;
+    color: var(--cor-letra);
 }
