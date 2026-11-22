@@ -1,9 +1,6 @@
-DROP TABLE IF EXISTS campanha_ficha;
 DROP TABLE IF EXISTS ficha;
 DROP TABLE IF EXISTS atributos;
 DROP TABLE IF EXISTS arquetipo;
-DROP TABLE IF EXISTS campanha_membro;
-DROP TABLE IF EXISTS campanha;
 DROP TABLE IF EXISTS perfil;
 
 
@@ -14,18 +11,6 @@ CREATE TABLE perfil(
     PRIMARY KEY(user_id)
 );
 
-CREATE TABLE campanha(
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE campanha_membro(
-    id SERIAL PRIMARY KEY,
-    id_campanha INT NOT NULL REFERENCES campanha(id),
-    user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    funcao VARCHAR(20) CHECK (funcao IN ('jogador', 'mestre')),
-    UNIQUE(id_campanha, user_id)
-);
 
 CREATE TABLE arquetipo(
     id SERIAL PRIMARY KEY,
@@ -49,12 +34,6 @@ CREATE TABLE ficha(
     id_arquetipo INT REFERENCES arquetipo(id),
     id_atributos INT REFERENCES atributos(id),
     user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE campanha_ficha(
-    id_campanha INT REFERENCES campanha(id),
-    id_ficha INT REFERENCES ficha(id),
-    PRIMARY KEY(id_campanha, id_ficha)
 );
 
 INSERT INTO arquetipo(nome, descricao)

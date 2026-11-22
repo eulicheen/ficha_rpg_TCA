@@ -1,3 +1,7 @@
+-- ideias abandonadas
+
+-- APÓS LOGIN IR PARA CAMPANHA E DEPOIS FICHA
+
 DROP TABLE IF EXISTS campanha_ficha;
 DROP TABLE IF EXISTS ficha;
 DROP TABLE IF EXISTS atributos;
@@ -82,7 +86,6 @@ VALUES
 
 
 
--- ideias abandonadas
 
 -- SISTEMA DE PERMISSÕES
 
