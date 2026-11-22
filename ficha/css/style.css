@@ -68,16 +68,14 @@ body{
     margin-top: 15px;
 }
 
-#div{
-    margin-top: 20px;
-    color: var(--cor-letra);
-}
-
 #p{
     color: var(--cor-letra);
 }
 
 #lista{
     color: var(--cor-letra);
-    border: 3px solid var(--cor-fundo);
+}
+
+.oculto {
+    display: none; 
 }
