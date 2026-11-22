@@ -1,5 +1,5 @@
 //criar
-const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co/rest/v1/campanha?select=*';
+const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co/rest/v1/campanha';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
        
 
@@ -7,14 +7,15 @@ const botao = document.querySelector('#botao');
 const div = document.querySelector('#div');
 const nome = document.querySelector('#nome');
 
+
 //ao clicar no botão rola tudo
-botao.addEventListener('click', NovaCampanha);
+botao.addEventListener('submit', NovaCampanha);
 
 async function NovaCampanha(e) {
     e.preventDefault(); 
 
     const dadosCampanha = {
-        nome_campanha: nome.value
+        nome: nome.value
     };
     
     try {
@@ -38,9 +39,9 @@ async function NovaCampanha(e) {
 
         const novaDiv = document.createElement('div');
 
-        novaDiv.innerHTML = `Nova campanha registrada com sucesso. <br> {campanhaCriada.nome_campanha}`;
+        novaDiv.innerHTML = `Nova campanha registrada com sucesso. <br> ${campanhaCriada.nome}`;
 
-        contentor.appendChild(novaDiv);
+        div.appendChild(novaDiv);
 
 
     window.open(`/ficha/criar_ficha.html?id=${campanhaCriada.id}`, '_blank');
