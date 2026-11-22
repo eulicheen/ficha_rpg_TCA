@@ -1,8 +1,9 @@
-/* todos os arquivos */
+/*ids e classes*/
 
 body{
     background-color: var(--cor-fundo);
     font-family: var(--fonte);
+    text-align: center;
 }
 
 .input{
@@ -42,7 +43,6 @@ body{
     color: var(--botao-claro);
 }
 
-/*ids e classes*/
 
 .tela-login{
     background-color: var(--fundo-login);
@@ -63,9 +63,26 @@ body{
     margin-top: 13px;
 }
 
+#ficha{
+    margin-top: 15px;
+    padding: -10px;
+}
 
+.habilidade{
+    padding: 10px;
+}
 
+.atributos{
+    width: 45px;
+    padding: 5px 10px;
+}
 
-.oculto {
-    display: none; 
+#ficha-container {
+    margin-left: 550px;
+    background-color: var(--fundo-login);
+    padding: 20px;
+    border-radius: 12px;
+    width: 50%;
+    max-width: 400px;
+    color: var(--botao)
 }

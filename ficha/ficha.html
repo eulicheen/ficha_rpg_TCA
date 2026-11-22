@@ -10,17 +10,18 @@
 </head>
 <body>
 
-<form id="ficha" class="oculto">
+<div id="ficha-container">
+
+<form id="ficha">
 
     <input type="hidden" id="input">
 
     <!-- nome do jogador -->
-    <input type="text" id="nome" placeholder="Nome do jogador" maxlength="50">
+    <input type="text" id="nome" name="nome_jogador" placeholder="Nome do Jogador" maxlength="50">
+    <br><br>
 
-    <!-- vida do jogador
-    <input type="number" id="vida" placeholder="Vida (máx 6)" min="0" max="6" required> -->
-
-    <label for="vida" >Vida:</label>
+    <!-- vida do jogador -->
+    <label for="vida">Vida:</label>
     <select id="vida" name="vida">
         <option value="0">0/6</option>
         <option value="1">1/6</option>
@@ -30,13 +31,56 @@
         <option value="5">5/6</option>
         <option value="6">6/6</option>
     </select>
+    <br><br>
 
-     <!-- dados do jogador -->
-    <input type="number" id="dados" placeholder="Dados (máx 6)" min="0" max="6" required>
+
+    <!-- dados do jogador -->
+    <label for="dados">Dados:</label>
+    <select id="dados" name="dados">
+        <option value="0">0/6</option>
+        <option value="1">1/6</option>
+        <option value="2">2/6</option>
+        <option value="3">3/6</option>
+        <option value="4">4/6</option>
+        <option value="5">5/6</option>
+        <option value="6">6/6</option>
+    </select>
+    <br><br>
+
+
+    <!-- arquetipos -->
+    <label for="arquetipo">Arquétipos:</label>
+    <select id="arquetipo" name="arquetipo">
+        <option value="0">Arquétipo</option>
+        <option value="1">Atleta</option>
+        <option value="2">Cético</option>
+        <option value="3">Esbelto</option>
+        <option value="4">Herói</option>
+        <option value="5">Inocente</option>
+        <option value="6">Nerd</option>
+        <option value="7">Relaxado</option>
+        <option value="8">Valentão</option>
+    </select>
+    <br><br><br>
+
+    <!-- atributos -->
+    <label>Atributos Especialista:</label>
+    <br><br>
+    <label>Carisma:</label><input type="number" class="atributos" id="carisma"><br><br>
+
+    <label>Destreza:</label><input type="number" class="atributos" id="destreza"><br><br>
+
+    <label>Força:</label><input type="number" class="atributos" id="força"><br><br>
+
+    <label>Inteligência:</label><input type="number" class="atributos" id="inteligencia"><br><br>
+
+    <label>Vigor:</label><input type="number" class="atributos" id="vigor"><br><br>
+    <br><br>
+
 
     <!-- habilidades do jogador -->
-    <textarea type="text" id="habilidade1" placeholder="Primeira habilidade" required></textarea>
-    <textarea type="text" id="habilidade2" placeholder="Segunda habilidade" required></textarea>
+    <textarea type="text" class="habilidade" placeholder="Primeira habilidade" required></textarea>
+    <textarea type="text" class="habilidade" placeholder="Segunda habilidade" required></textarea>
 
     
     
@@ -49,7 +93,9 @@
     <p id="p">Fichas registradas:</p>
     <div id="lista">Carregando...</div>
 
-    <script src="js/criar_campanha.js"></script>
+</div>
+
+    <script src="js/ficha.js"></script>
 
 </body>
 </html>
