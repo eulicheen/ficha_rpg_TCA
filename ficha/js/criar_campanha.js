@@ -1,13 +1,11 @@
-//criar 
 const SUPABASE_URL_BASE = 'https://dlzbjomtmquobzwzzfot.supabase.co/rest/v1/campanha';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_UZujLvs6Ne2v5RtDVuN_iQ_dNOghJn4';
        
 
+//criarcampanha
 const botao = document.querySelector('#botao');
 const div = document.querySelector('#div');
 const nome = document.querySelector('#nome');
-
-//carregar 
 
 async function novaCampanha() {
 
@@ -36,9 +34,6 @@ async function novaCampanha() {
 
 
         const novaDiv = document.createElement('div');
-
-        novaDiv.innerHTML = `Nova campanha registrada com sucesso. <br> ${campanhaCriada.nome}`;
-
         div.appendChild(novaDiv);
 
 
@@ -49,3 +44,43 @@ async function novaCampanha() {
         alert('Erro ao criar campanha');
     }
 }
+
+
+//mostrar campanhas criadas
+const lista = document.querySelector('#lista');
+let localCampanhas = [];
+
+async function buscarCampanhas() {
+    try {
+        const resposta = await fetch(API_URL,
+            {
+                method: 'GET',
+                headers: {
+                apikey: PUBLISHABLE_KEY,
+                Accept: 'application/json'
+                }
+            }
+        );  
+        localCampanhas = await response.json();
+        renderCampanhas();
+    } catch (error) {
+        lista.innerHTML = 'Erro ao carregar campanhas.';
+    }
+}
+
+//redenriza as campanhas
+function renderCampanhas() {
+    if (localCampanhas.length === 0) {
+        lista.innerHTML = '<p>Nenhuma campanha encontrada.</p>';
+        return;
+    }
+
+    localCampanhas.forEach(campanha => {
+        lista.innerHTML += `
+            <div id="campanha-${campanha.id}">
+                <p>${campanha.nome}</p>
+            </div>
+        `;
+    });
+}
+buscarCampanhas();
