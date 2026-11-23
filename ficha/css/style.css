@@ -113,3 +113,7 @@ html, body{
     text-align: center;
     color: var(--botao)
 }
+
+.ficha-card{
+    margin-bottom: 10px;
+}
