@@ -14,7 +14,14 @@ const habilidade = document.querySelector('#habilidade');
 
 const lista = document.querySelector('#lista');
 
-//armazenar dados no servidor
+
+//salva a sessão naquele login
+const userId = sessao?.user?.id;
+
+//lista apenas as fichas daquele login
+const SUPABASE_URL = `${SUPABASE_URL_BASE}?select=*&user_id=eq.${userId}&order=id.desc`;
+
+//armazenar dados no supabase
 let local = [];
 
 
@@ -31,7 +38,7 @@ function headers(){
 //busca as fichas do supabase
 async function buscar(){
     try{
-        const resposta = await fetch(SUPABASE_URL_BASE, {
+        const resposta = await fetch(SUPABASE_URL, {
             headers: headers()
         });
 
@@ -106,5 +113,22 @@ async function salvar(e){
         habilidade: habilidade.value.trim()
     };
 
-    
+    //configurações de logins pra não mexer em outras fichas
+    if(!editando){
+        fichaData.user_id = userId;
+    }
+
+    const url = editando ? `${SUPABASE_URL_BASE}?select=*&user_id=eq.${userId}` : SUPABASE_URL_BASE;
+
+    try{
+        const resposta = await fetch(url, {
+            method: editando ? 'PATCH' : 'POST',
+            headers: headers(),
+            body: JSON.stringify(fichaData)
+        });
+    }catch(error){
+        console.error('Erro ao salvar ficha:', error);
+        alert('Erro ao salvar ficha, verifique o console')
+    }
+
 }
