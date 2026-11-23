@@ -20,7 +20,7 @@
 
     <!-- nome do jogador -->
     <input type="text" id="nome" name="nome_jogador" placeholder="Nome do Jogador" maxlength="50">
-    <br><br>
+    <br><br><br>
 
     <!-- vida do jogador -->
     <label for="vida">Vida:</label>
@@ -47,13 +47,13 @@
         <option value="5">5/6</option>
         <option value="6">6/6</option>
     </select>
-    <br><br>
+    <br><br><br>
 
 
     <!-- arquetipos -->
     <label for="arquetipo">Arquétipos:</label>
     <select id="arquetipo" name="arquetipo">
-        <option value="0">Arquétipo</option>
+        <option value="0">Escolha</option>
         <option value="1">Atleta</option>
         <option value="2">Cético</option>
         <option value="3">Esbelto</option>
@@ -63,35 +63,30 @@
         <option value="7">Relaxado</option>
         <option value="8">Valentão</option>
     </select>
-    <br><br><br>
-
+    <br><br>
 
     <!-- atributos -->
-    <label>Atributos Especialista:</label>
-    <br><br>
-    <label>Carisma:</label><input type="number" class="atributos" id="carisma"><br><br>
-
-    <label>Destreza:</label><input type="number" class="atributos" id="destreza"><br><br>
-
-    <label>Força:</label><input type="number" class="atributos" id="força"><br><br>
-
-    <label>Inteligência:</label><input type="number" class="atributos" id="inteligencia"><br><br>
-
-    <label>Vigor:</label><input type="number" class="atributos" id="vigor"><br><br>
-    <br>
-
+    <label for="atributo">Atributo Especial:</label>
+    <select id="atributo" name="atributo">
+        <option value="0">Escolha</option>
+        <option value="1">Carisma</option>
+        <option value="2">Destreza</option>
+        <option value="3">Força</option>
+        <option value="4">Inteligência</option>
+        <option value="5">Vigor</option>
+    </select>
+    <br><br><br>
+    
 
     <!-- habilidades do jogador -->
-    <label>Habilidades:</label>
+    <label>Habilidade:</label>
     <br><br>
-    <textarea type="text" class="habilidade" placeholder="Primeira habilidade" required></textarea>
-    <br>
-    <textarea type="text" class="habilidade" placeholder="Segunda habilidade" required></textarea>
+    <textarea type="text" class="habilidade" id="habilidade1" placeholder="Habilidade" required></textarea>
     <br><br> 
 
 
     <!-- Botão de nova ficha -->
-    <button type="submit" id="botao" onclick="salvarFicha()"><b>Salvar ficha</b></button>
+    <button type="submit" id="botao"><b>Salvar ficha</b></button>
 
 </form>
 </div>
