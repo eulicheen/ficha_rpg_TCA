@@ -90,3 +90,21 @@ function edit(id) {
     }
 }
 window.edit = edit;
+
+async function salvar(e){
+    e.preventDefault();
+
+    const id= input.value;
+    const editando = Boolean(id);
+
+    const fichaData = {
+        nome_jogador: nome.value,
+        vida: Number(vida.value),
+        dados: Number(dados.value),
+        id_arquetipo: Number(arquetipo.value) || null, //por ser chave estrangeira da tabela ficha
+        id_atributo: Number(atributo.value) || null, //por ser chave estrangeira da tabela ficha
+        habilidade: habilidade.value.trim()
+    };
+
+    
+}
