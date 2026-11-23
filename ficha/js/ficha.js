@@ -13,6 +13,7 @@ const atributo = document.querySelector('#atributo');
 const habilidade = document.querySelector('#habilidade');
 
 const lista = document.querySelector('#lista');
+const mensagem = document.querySelector('#mensagem');
 
 
 //salva a sessão naquele login
@@ -82,9 +83,8 @@ function render() {
 function edit(id) {
     const ficha = local.find(e => e.id === id);
     if (ficha) {
-        form.classList.remove('oculto');
-        ficha.classList.add('oculto');
-        lista.innerHTML = 'Informe os dados que serão alterados';
+        lista.classList.add('oculto');
+        mensagem.innerHTML = 'Informe os dados que serão alterados';
 
         input.value = ficha.id;
         nome.value = ficha.nome_produto;
@@ -126,6 +126,22 @@ async function salvar(e){
             headers: headers(),
             body: JSON.stringify(fichaData)
         });
+
+        const resultado = await resposta.json();
+
+        if(editando){
+            mensagem.innerHTML = `Ficha alterada com sucesso!<br>Escolha outra ficha para editar.`;
+            lista.classList.remove('oculto');
+        } else {
+             mensagem.innerHTML = `Ficha criada com sucesso!<br>Preencha o formulário novamente para criar outra ficha.`;
+        }
+
+        //limpa o formulário e recarrega a lista atualizada
+        form.reset();
+        input.value = '';
+        buscar(); 
+
+
     }catch(error){
         console.error('Erro ao salvar ficha:', error);
         alert('Erro ao salvar ficha, verifique o console')
