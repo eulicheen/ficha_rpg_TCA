@@ -16,3 +16,24 @@ const lista = document.querySelector('#lista');
 
 //armazenar dados no servidor
 let local = [];
+
+
+//headers para não precisar repetir toda hora
+function headers(){
+    'apikey': SUPABASE_PUBLISHABLE_KEY,
+    'Authorization': `Bearer ${PUBLISHABLE_KEY}`,
+    'Content-Type': 'application/json',  
+    'Prefer': 'return=representation'
+}
+
+async function buscar(){
+    try{
+        const resposta = await fetch(SUPABASE_URL_BASE, {
+            headers: headers()
+        }
+        );
+    }catch(error){
+        lista.innerHTML = 'Erro ao buscar fichas';
+    }
+    
+}
