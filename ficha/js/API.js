@@ -42,7 +42,7 @@ async function cadastro(e) {
 
     
     localStorage.setItem("supabase_session", JSON.stringify(dados));
-    window.location.href = 'ficha/ficha.html';
+    window.location.href = '/ficha.html';
 
 }
 catch (error) {
