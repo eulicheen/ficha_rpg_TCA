@@ -39,7 +39,7 @@ async function login(e) {
     
 
     localStorage.setItem("supabase_session", JSON.stringify(dados));
-    window.location.href = '/ficha/ficha.html';
+    window.location.href = '/ficha_rpg_TCA/ficha/ficha.html';
 
 }
 catch (error) {
