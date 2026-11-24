@@ -47,6 +47,7 @@ html, body{
 
 
 .tela-login{
+    color: var(--cor-input);
     background-color: var(--fundo-login);
     position: absolute;
 

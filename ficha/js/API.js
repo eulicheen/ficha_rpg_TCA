@@ -36,6 +36,7 @@ async function cadastro(e) {
       throw new Error(dados.message || `Erro HTTP: ${resposta.status}`);
     }
 
+    alert('Conta criada');
     console.log('Conta criada:', dados);
     armazenar.push(dados);
 
