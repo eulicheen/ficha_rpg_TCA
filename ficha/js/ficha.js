@@ -50,7 +50,7 @@ function escapar(texto) {
 //bloqueia a página se não tiver login
 if (!userId) {
     alert('Você precisa fazer login antes.');
-    window.location.href = 'login.html';
+    window.location.href = 'ficha/login.html';
 } else {
     form.addEventListener('submit', salvar);
     buscar();
@@ -130,6 +130,23 @@ async function deletar(id) {
     if(!confirm('Deseja realmente excluir esta ficha?')) return;
 
     try{
+        //faz uma filtragem pelo login para não apagar a ficha de outra conta
+        const url = new URL(SUPABASE_URL_BASE);
+        url.searchParams.set('id', `eq.${id}`);
+        url.searchParams.set('user_id', `eq.${userId}`);
+
+        const resposta = await fetch(url, {
+            method: 'DELETE',
+            headers: headers()
+        });
+
+        if (!resposta.ok) {
+            throw new Error(`Erro HTTP: ${resposta.status}`);
+        }
+
+        mensagem.innerHTML = `Ficha excluída com sucesso!`
+
+        buscar();
 
     }catch(error){
         console.error('Erro ao excluir ficha:', error);
