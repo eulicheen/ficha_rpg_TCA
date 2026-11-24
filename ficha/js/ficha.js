@@ -99,6 +99,7 @@ function render() {
                 <p>Habilidade: ${escapar(ficha.habilidade)}</p>
                 <div class="actions">
                     <button class="edit" onclick="edit(${ficha.id})">Editar</button>
+                    <button class="delete" onclick="deletar(${ficha.id})">Excluir</button>
                 </div>
             </div>
         `;
@@ -122,6 +123,20 @@ function edit(id) {
     }
 }
 window.edit = edit;
+
+//exclui a ficha
+async function deletar(id) {
+
+    if(!confirm('Deseja realmente excluir esta ficha?')) return;
+
+    try{
+
+    }catch(error){
+        console.error('Erro ao excluir ficha:', error);
+        alert('Erro ao excluir ficha.')
+    }
+    
+}
 
 
 //cria (POST) ou atualiza (PATCH)
