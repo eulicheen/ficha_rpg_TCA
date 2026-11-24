@@ -117,3 +117,7 @@ html, body{
 .ficha-card{
     margin-bottom: 10px;
 }
+
+.oculto{
+    display: none;
+}

@@ -7,12 +7,12 @@ const sessao = JSON.parse(localStorage.getItem('supabase_session') || 'null');
 const userId = sessao?.user?.id;
 const token = sessao?.access_token;
 
-//lista apenas as fichas daquele login
-const SUPABASE_URL = `${SUPABASE_URL_BASE}?select=*&user_id=eq.${userId}&order=id.desc`;
+//lista apenas as fichas daquele login, com o nome do arquétipo/atributo
+const SUPABASE_URL = `${SUPABASE_URL_BASE}?select=*,arquetipo(nome),atributos(nome)&user_id=eq.${userId}&order=id.desc`;
 
 
 //variáveis
-const ficha = document.querySelector('#ficha');
+const form = document.querySelector('#ficha');
 const input = document.querySelector('#input');
 
 const nome = document.querySelector('#nome');
@@ -34,18 +34,25 @@ let local = [];
 function headers(){
     return{
     'apikey': SUPABASE_PUBLISHABLE_KEY,
-    'Authorization': `Bearer ${token || PUBLISHABLE_KEY}`,
+    'Authorization': `Bearer ${token || SUPABASE_PUBLISHABLE_KEY}`,
     'Content-Type': 'application/json',  
     'Prefer': 'return=representation'
     };
 }
 
+//evita injeção de HTML nos espaços de formulário
+function escapar(texto) {
+    const div = document.createElement('div');
+    div.textContent = texto ?? '';
+    return div.innerHTML;
+}
+
 //bloqueia a página se não tiver login
 if (!userId) {
-    alert('Você precisa fazer login primeiro.');
+    alert('Você precisa fazer login antes.');
     window.location.href = 'login.html';
 } else {
-    ficha.addEventListener('submit', salvar);
+    form.addEventListener('submit', salvar);
     buscar();
 }
 
@@ -56,15 +63,15 @@ async function buscar(){
             headers: headers()
         });
 
-        const dados = await resposta.json();
+        const resultado = await resposta.json();
 
         if (!resposta.ok) {
-        console.error('Erro do servidor:', dados);
-        lista.innerHTML = 'Erro ao carregar dados.';
-        return;
+            console.error('Erro do servidor:', resultado);
+            lista.innerHTML = 'Erro ao carregar dados.';
+            return;
         }
 
-        local = dados;
+        local = resultado;
         render();
 
     }catch(error){
@@ -84,14 +91,14 @@ function render() {
     local.forEach(ficha => {
         lista.innerHTML += `
             <div class="ficha-card" id="ficha-${ficha.id}">
-                <h2>${ficha.nome_jogador}</h2>
+                <h3>${escapar(ficha.nome_jogador)}</h3>
                 <p>Vida: ${ficha.vida}</p>
                 <p>Dados: ${ficha.dados}</p>
-                <p>Arquétipo: ${ficha.id_arquetipo}</p>
-                <p>Atributo: ${ficha.id_atributo}</p>
-                <p>Habilidade: ${ficha.habilidade}</p>
+                <p>Arquétipo: ${(ficha.arquetipo?.nome)  || '-'}</p>
+                <p>Atributo: ${(ficha.atributos?.nome)  || '-'}</p>
+                <p>Habilidade: ${escapar(ficha.habilidade)}</p>
                 <div class="actions">
-                    <button class="edit" onclick="prepararEdit(${ficha.id})">Editar</button>
+                    <button class="edit" onclick="edit(${ficha.id})">Editar</button>
                 </div>
             </div>
         `;
@@ -106,12 +113,12 @@ function edit(id) {
         mensagem.innerHTML = 'Informe os dados que serão alterados';
 
         input.value = ficha.id;
-        nome.value = ficha.nome_produto;
+        nome.value = ficha.nome_jogador;
         vida.value = ficha.vida;
         dados.value = ficha.dados;
-        arquetipo.value = ficha.id_arquetipo;
-        atributo.value = ficha.id_atributo;
-        habilidade.value = ficha.habilidade;         
+        arquetipo.value = ficha.id_arquetipo ?? 0;
+        atributo.value = ficha.id_atributos ?? 0;
+        habilidade.value = ficha.habilidade || '';       
     }
 }
 window.edit = edit;
@@ -129,7 +136,7 @@ async function salvar(e){
         vida: Number(vida.value),
         dados: Number(dados.value),
         id_arquetipo: Number(arquetipo.value) || null, //por ser chave estrangeira da tabela ficha
-        id_atributo: Number(atributo.value) || null, //por ser chave estrangeira da tabela ficha
+        id_atributos: Number(atributo.value) || null, //por ser chave estrangeira da tabela ficha
         habilidade: habilidade.value.trim()
     };
 
@@ -138,7 +145,7 @@ async function salvar(e){
         fichaData.user_id = userId;
     }
 
-    const url = editando ? `${SUPABASE_URL_BASE}?select=*&user_id=eq.${userId}` : SUPABASE_URL_BASE;
+    const url = editando ? `${SUPABASE_URL_BASE}?id=eq.${id}&user_id=eq.${userId}` : SUPABASE_URL_BASE;
 
 
     try{
@@ -151,9 +158,9 @@ async function salvar(e){
         const resultado = await resposta.json();
 
         if (!resposta.ok) {
-        console.error('Erro do servidor:', resultado);
-        alert('Erro: ' + (resultado.message || 'não foi possível salvar.'));
-        return;
+            console.error('Erro do servidor:', resultado);
+            alert('Erro: ' + (resultado.message || 'não foi possível salvar.'));
+            return;
         }
 
         if(editando){
