@@ -91,7 +91,7 @@ function render() {
     local.forEach(ficha => {
         lista.innerHTML += `
             <div class="ficha-card" id="ficha-${ficha.id}">
-                <h3>${escapar(ficha.nome_jogador)}</h3>
+                <h3>${escapar(ficha.nome_jogador) || '-'}</h3>
                 <p>Vida: ${ficha.vida}</p>
                 <p>Dados: ${ficha.dados}</p>
                 <p>Arquétipo: ${(ficha.arquetipo?.nome)  || '-'}</p>

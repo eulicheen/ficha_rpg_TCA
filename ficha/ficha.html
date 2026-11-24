@@ -3,99 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campanha</title>
+    <title>Ficha</title>
 
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-<div id="ficha-container">
+<div id="pagina">
+    <div id="ficha-container">
 
-    <h1>Bem-vindo a sua ficha!</h1>
+        <h1>Bem-vindo a sua ficha!</h1>
 
-<form id="ficha">
+    <form id="ficha">
 
-    <input type="hidden" id="input">
+        <input type="hidden" id="input">
 
-    <!-- nome do jogador -->
-    <input type="text" id="nome" name="nome_jogador" placeholder="Nome do Jogador" maxlength="50">
-    <br><br><br>
+        <!-- nome do jogador -->
+        <input type="text" id="nome" name="nome_jogador" placeholder="Nome do Jogador" maxlength="50">
+        <br><br><br>
 
-    <!-- vida do jogador -->
-    <label for="vida">Vida:</label>
-    <select id="vida" name="vida">
-        <option value="0">0/6</option>
-        <option value="1">1/6</option>
-        <option value="2">2/6</option>
-        <option value="3">3/6</option>
-        <option value="4">4/6</option>
-        <option value="5">5/6</option>
-        <option value="6">6/6</option>
-    </select>
+        <!-- vida do jogador -->
+        <label for="vida">Vida:</label>
+        <select id="vida" name="vida">
+            <option value="0">0/6</option>
+            <option value="1">1/6</option>
+            <option value="2">2/6</option>
+            <option value="3">3/6</option>
+            <option value="4">4/6</option>
+            <option value="5">5/6</option>
+            <option value="6">6/6</option>
+        </select>
+        <br><br>
+
+
+        <!-- dados do jogador -->
+        <label for="dados">Dados:</label>
+        <select id="dados" name="dados">
+            <option value="0">0/6</option>
+            <option value="1">1/6</option>
+            <option value="2">2/6</option>
+            <option value="3">3/6</option>
+            <option value="4">4/6</option>
+            <option value="5">5/6</option>
+            <option value="6">6/6</option>
+        </select>
+        <br><br><br>
+
+
+        <!-- arquetipos -->
+        <label for="arquetipo">Arquétipos:</label>
+        <select id="arquetipo" name="arquetipo">
+            <option value="0">Escolha</option>
+            <option value="1">Atleta</option>
+            <option value="2">Cético</option>
+            <option value="3">Esbelto</option>
+            <option value="4">Herói</option>
+            <option value="5">Inocente</option>
+            <option value="6">Nerd</option>
+            <option value="7">Relaxado</option>
+            <option value="8">Valentão</option>
+        </select>
+        <br><br>
+
+        <!-- atributos -->
+        <label for="atributo">Atributo Especial:</label>
+        <select id="atributo" name="atributo">
+            <option value="0">Escolha</option>
+            <option value="1">Carisma</option>
+            <option value="2">Destreza</option>
+            <option value="3">Força</option>
+            <option value="4">Inteligência</option>
+            <option value="5">Vigor</option>
+        </select>
+        <br><br><br>
+
+
+        <!-- habilidades do jogador -->
+        <label for="habilidade">Habilidade:</label>
+        <br><br>
+        <textarea class="habilidade" id="habilidade" placeholder="Habilidade" required></textarea>
+        <br><br> 
+
+
+        <!-- Botão de nova ficha -->
+        <button type="submit" id="botao"><b>Salvar ficha</b></button>
+
+    </form>
+    </div>
+
     <br><br>
 
+    <div id="registro">
+        <!-- registro de fichas -->
+        <div id="mensagem"></div>
+        <h2 id="p">Fichas registradas:</h2>
+        <div id="lista">Carregando...</div>
+    </div>
 
-    <!-- dados do jogador -->
-    <label for="dados">Dados:</label>
-    <select id="dados" name="dados">
-        <option value="0">0/6</option>
-        <option value="1">1/6</option>
-        <option value="2">2/6</option>
-        <option value="3">3/6</option>
-        <option value="4">4/6</option>
-        <option value="5">5/6</option>
-        <option value="6">6/6</option>
-    </select>
-    <br><br><br>
-
-
-    <!-- arquetipos -->
-    <label for="arquetipo">Arquétipos:</label>
-    <select id="arquetipo" name="arquetipo">
-        <option value="0">Escolha</option>
-        <option value="1">Atleta</option>
-        <option value="2">Cético</option>
-        <option value="3">Esbelto</option>
-        <option value="4">Herói</option>
-        <option value="5">Inocente</option>
-        <option value="6">Nerd</option>
-        <option value="7">Relaxado</option>
-        <option value="8">Valentão</option>
-    </select>
-    <br><br>
-
-    <!-- atributos -->
-    <label for="atributo">Atributo Especial:</label>
-    <select id="atributo" name="atributo">
-        <option value="0">Escolha</option>
-        <option value="1">Carisma</option>
-        <option value="2">Destreza</option>
-        <option value="3">Força</option>
-        <option value="4">Inteligência</option>
-        <option value="5">Vigor</option>
-    </select>
-    <br><br><br>
-
-
-    <!-- habilidades do jogador -->
-    <label for="habilidade">Habilidade:</label>
-    <br><br>
-    <textarea class="habilidade" id="habilidade" placeholder="Habilidade" required></textarea>
-    <br><br> 
-
-
-    <!-- Botão de nova ficha -->
-    <button type="submit" id="botao"><b>Salvar ficha</b></button>
-
-</form>
 </div>
-<br><br>
-
-    <!-- registro de fichas -->
-    <div id="mensagem"></div>
-    <h2 id="p">Fichas registradas:</h2>
-    <div id="lista">Carregando...</div>
 
     <script src="js/ficha.js"></script>
 

@@ -83,10 +83,11 @@ html, body{
 }
 
 #ficha-container {
+    flex: 0 0 400px;/* largura fixa do formulário */
+
+    width: 100%;
     background-color: var(--fundo-login);
     border-radius: 12px;
-    width: 100%;
-    max-width: 400px;
     color: var(--botao);
     box-sizing: border-box;
     padding: 24px;
@@ -120,4 +121,17 @@ html, body{
 
 .oculto{
     display: none;
+}
+
+
+#pagina {
+    display: flex;
+    align-items: flex-start;  /* alinha os dois no topo */
+    gap: 30px;
+    padding: 20px;
+}
+
+#registro {
+    flex: 1;/* ocupa o resto da tela */
+    min-width: 0;/* evita estourar o layout */
 }
